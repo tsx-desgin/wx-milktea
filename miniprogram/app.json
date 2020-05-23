@@ -1,0 +1,49 @@
+{
+  "pages": [
+    "pages/home/home",
+    "pages/list/list",
+    "pages/order/order",
+    "pages/my/my"
+  ],
+  "window": {
+    "backgroundColor": "#F6F6F6",
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#FFF",
+    "navigationBarTitleText": "奶茶先生+",
+    "navigationBarTextStyle": "black"
+  },
+  "sitemapLocation": "sitemap.json",
+  "style": "v2",
+  "tabBar": {
+    "color": "#666",
+    "selectedColor": "#333",
+    "backgroundColor": "#fff",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath" :"pages/home/home",
+        "text" :"首页",
+        "iconPath" :"./images/tabBar/home.png",
+        "selectedIconPath" :"./images/tabBar/home@selected.png"
+      },
+      {
+        "pagePath" :"pages/list/list",
+        "text" :"点餐",
+        "iconPath" :"./images/tabBar/list.png",
+        "selectedIconPath" :"./images/tabBar/list@selected.png"
+      },
+      {
+        "pagePath" :"pages/order/order",
+        "text" :"订单",
+        "iconPath" :"./images/tabBar/order.png",
+        "selectedIconPath" :"./images/tabBar/order@selected.png"
+      },
+      {
+        "pagePath" :"pages/my/my",
+        "text" :"我的",
+        "iconPath" :"./images/tabBar/my.png",
+        "selectedIconPath" :"./images/tabBar/my@selected.png"
+      }
+    ]
+  }
+}
