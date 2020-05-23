@@ -4,8 +4,8 @@ circular="{{true}}"
 autoplay="{{true}}" 
 indicator-active-color="#fff" 
 class="swiper-container">
-  <swiper-item wx:for="{{swiperList}}" wx:key="*this">
-     <image src="{{item}}"  class="swiper-img" lazy-load="{{true}}"></image>
+  <swiper-item wx:for="{{swiperList}}" wx:key="goods_id">
+     <image src="{{item.goods_img}}"  class="swiper-img" lazy-load="{{true}}"></image>
   </swiper-item>
 </swiper>
 <view class="navigate">

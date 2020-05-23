@@ -4,13 +4,13 @@ import {
 import {
   getConfig
 } from '../utils/function'
-const bannerKey = getConfig('storage.banner') || 'banner'
-class Banner extends Storage {
+const swiperKey = getConfig('storage.swiper') || 'swiper'
+class Swiper extends Storage {
   constructor(){
-    super(bannerKey, true)
+    super(swiperKey, true)
   }
 }
 
 export {
-  Banner
+  Swiper
 }

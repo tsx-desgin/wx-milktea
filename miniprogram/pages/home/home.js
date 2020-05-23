@@ -4,8 +4,11 @@ import {
 } from '../../utils/function'
 // import {Swiper} from '../../modal/Swiper'
 import {
-  Banner
+  Banner,
 } from '../../storage/banner'
+import {
+  Swiper,
+} from '../../storage/swiper'
 Page({
 
   /**
@@ -13,8 +16,7 @@ Page({
    */
   data: {
     swiperList:[
-      "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1589955260578&di=8b07c7624a94955651eab32554071ff5&imgtype=0&src=http%3A%2F%2Fimg2.imgtn.bdimg.com%2Fit%2Fu%3D3984473917%2C238095211%26fm%3D214%26gp%3D0.jpg",
-      "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1589951844055&di=f52d6521a8818519152d7d4ef4783a11&imgtype=0&src=http%3A%2F%2Fa4.att.hudong.com%2F52%2F52%2F01200000169026136208529565374.jpg"
+     
     ],
     navList:[],
     bannerList:[],
@@ -26,20 +28,45 @@ Page({
   onLoad: function (options) {
     this.initData()
   },
-  initData (){
-    this.getNavigate()
-    this.getSwiper()
+  async initData (){
+    wx.showLoading({
+      title: '加载中',
+      mask:true
+    })
+    const navList =await this.getNavigate()
+    console
+    const bannerList=await this.getbanner()
+    const swiperList =await this.getRecommend()
+    wx.hideLoading()
+    this.setData({
+      navList,
+      bannerList,
+      swiperList
+    })
+  },
+  async getRecommend(){
+    let swiperStorage = new Swiper();
+    let swiperList = swiperStorage.getStorage();
+    if(!swiperList){
+      swiperList = await wx.cloud.callFunction({
+        name : 'goods',
+        data : {
+          $url:'recommend',
+          number:5
+        }
+      }).then(res=>res.result)
+      swiperStorage.setStorage(swiperList)
+    }
+    return swiperList
   },
   getNavigate(){
-    const navigate =getConfig('navigate')
+    const navList =getConfig('navigate')
     // 赋值 setData;
-    if(navigate!=null){
-      this.setData({
-        navList:navigate,
-      })
+    if(navList!=null){
+      return navList
     }
   },
-  async getSwiper(){
+  async getbanner(){
     // Swiper.getSwiper().then(res => {
     //   console.log(res)
     // });
@@ -47,29 +74,16 @@ Page({
     // 获取云端数据
   // 判断是否有缓存
   const bannerStorage = new Banner();
-  const bannerList = bannerStorage.getStorage();
-  if(bannerList){
-    this.setData({
-      bannerList
-    })
-    return
-  }
-    wx.showLoading({
-      title: '加载中',
-      mask:true
-    })
-    const swiper = await wx.cloud.callFunction({
+  let bannerList = bannerStorage.getStorage();
+  if(!bannerList){
+    bannerList= await wx.cloud.callFunction({
       name :"getSwiper", 
     }).then(res => {
       return res.result.map(item => item.img);
     })
-    console.log(swiper)
-    wx.hideLoading()
-    // 保存缓存
     bannerStorage.setStorage(swiper,2)
-    this.setData({
-      bannerList:swiper
-    })
+  }
+   return bannerList 
   },
   /**
    * 生命周期函数--监听页面初次渲染完成
