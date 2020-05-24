@@ -81,7 +81,7 @@ Page({
     }).then(res => {
       return res.result.map(item => item.img);
     })
-    bannerStorage.setStorage(swiper,2)
+    bannerStorage.setStorage(bannerList,2)
   }
    return bannerList 
   },

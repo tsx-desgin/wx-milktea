@@ -45,7 +45,7 @@
 }
 .navigate-img{
   width: 80rpx;
-  height: 50rpx;
+  height: 80rpx;
 }
 .navigate-name{
   font-size: 20rpx;

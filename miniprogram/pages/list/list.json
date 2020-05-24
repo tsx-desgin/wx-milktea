@@ -1,3 +1,8 @@
 {
-  "usingComponents": {}
+  "usingComponents": {
+    "mt-address":"../../components/list/address/index",
+    "mt-category":"../../components/list/category/index",
+    "mt-goods":"../../components/list/goods/index"
+  },
+  "navigationBarTitleText": "点餐"
 }

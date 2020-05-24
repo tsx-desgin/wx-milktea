@@ -1,0 +1,17 @@
+<view class="category-container">
+ <view class="category-item">
+    <view class="hot-icon">
+    <view class="~icon ~iconrexiao"></view>
+    </view>
+    热销
+ </view>
+  <view class="category-item">
+    <view class="discount-icon">
+    <view class="~icon ~iconyouhuifangshi"></view>
+    </view>
+    优惠
+ </view>
+ <view class="category-item" wx:for="{{categoryList}}" wx:key="cat_id">
+    {{item.cat_name}}
+ </view>
+</view>

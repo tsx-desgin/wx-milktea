@@ -1,0 +1,7 @@
+.category-container{
+  width: 180rpx;
+  height: 100%;
+}
+.category-item{
+  
+}

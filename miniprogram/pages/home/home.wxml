@@ -19,7 +19,6 @@ class="swiper-container">
 <swiper 
 indicator-dots="{{true}}" 
 circular="{{true}}" 
-autoplay="{{true}}" 
 indicator-active-color="#fff" 
 class="banner-container">
   <swiper-item wx:for="{{bannerList}}" wx:key="*this">

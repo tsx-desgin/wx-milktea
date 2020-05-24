@@ -1,2 +1,3 @@
-<!--miniprogram/pages/list/list.wxml-->
-<text>miniprogram/pages/list/list.wxml</text>
+<mt-address address="{{address}}" a="icon" b="iconyou"></mt-address>
+<mt-category categoryList="{{categoryList}}"></mt-category>
+<mt-goods></mt-goods>
