@@ -1,7 +1,41 @@
 .category-container{
-  width: 180rpx;
+  width: 100%;
   height: 100%;
 }
 .category-item{
-  
+  width: 100%;
+  height: 88rpx;
+  display: flex;
+  align-items: center;
+  color: #666;
+  font-size: 28rpx;
+  padding-left: 20rpx;
+  box-sizing: border-box;
+}
+.category-item.active{
+  background: #fff;
+  color: #333;
+  font-weight: bold;
+}
+.hot-icon{
+  width: 40rpx;
+  height: 40rpx;
+  background: #ff5d5a;
+  color: #fff;
+  font-size: 20rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 10rpx;
+}
+.discount-icon{
+  width: 40rpx;
+  height: 40rpx;
+  background: #fde754;
+  color: #fff;
+  font-size: 20rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 10rpx;
 }

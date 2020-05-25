@@ -1,3 +1,9 @@
 <mt-address address="{{address}}" a="icon" b="iconyou"></mt-address>
-<mt-category categoryList="{{categoryList}}"></mt-category>
-<mt-goods></mt-goods>
+<view class="body">
+  <view class="body-category">
+    <mt-category categoryList="{{categoryList}}" bind:change="chageCategory"></mt-category>
+  </view>
+  <view class="body-goods">
+    <mt-goods goods="{{goods}}"></mt-goods>
+  </view>
+</view>

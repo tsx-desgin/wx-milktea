@@ -1,17 +1,23 @@
 <view class="category-container">
- <view class="category-item">
-    <view class="hot-icon">
-    <view class="~icon ~iconrexiao"></view>
+<!-- 
+   点击事件:bindtap 或 bind:tap  不允许传参
+ -->
+ <view class="category-item {{catId==item.cat_id?'active':''}}"
+  wx:for="{{categoryList}}" 
+  wx:key="cat_id" 
+  bindtap="changeCategory"
+  data-cat-id="{{item.cat_id}}"
+  >
+    <block wx:if="{{item.cat_id==-1}}">
+       <view class="hot-icon">
+      <view class="~icon ~iconrexiao"></view>
     </view>
-    热销
- </view>
-  <view class="category-item">
-    <view class="discount-icon">
-    <view class="~icon ~iconyouhuifangshi"></view>
-    </view>
-    优惠
- </view>
- <view class="category-item" wx:for="{{categoryList}}" wx:key="cat_id">
+    </block>
+    <block wx:elif="{{item.cat_id==-2}}">
+       <view class="discount-icon">
+        <view class="~icon ~iconyouhuifangshi"></view>
+       </view>
+    </block>
     {{item.cat_name}}
  </view>
 </view>

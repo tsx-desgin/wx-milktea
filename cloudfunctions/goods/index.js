@@ -45,5 +45,34 @@ exports.main = async (event, context) => {
     }).get().then(res=>res.data)
     ctx.body = category
   })
+
+  // 分页获取数据
+  app.router('list',async(ctx) =>{
+    const where = {}
+    const number = event.number|| 10
+    const offset = event.offset|| 0
+    const isSales = event.isSales || 0
+    const isRecommmend = event.isRecomend || 0
+    const pid = event.pid||0
+    if(isRecommmend==1){
+      where.is_recommend =1
+    }
+    if(isSales==1){
+      where.is_sales =1
+    }
+    if(pid>0){
+      where.pcat_id =pid
+    }
+    const goodsList = await goodsCollection.where(where).field({
+      goods_id:true,
+      cat_id:true,
+      goods_img:true,
+      goods_name:true,
+      goods_price:true,
+      stock:true,
+      _id:false
+    }).orderBy('cat_id','desc').skip(offset).limit(number).get().then(res=>res.data)
+    ctx.body = goodsList
+  })
   return app.serve();
 }

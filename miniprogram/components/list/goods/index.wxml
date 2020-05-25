@@ -1,1 +1,10 @@
-
+<view class='goods-List'>
+<view class="goods-title">热销</view>
+  <view wx:for="{{goods}}" wx:key="goods_id" class="goods-item">
+    <image src="{{item.goods_img}}" class="goods-img"></image>
+    <view class="goods-info">
+       <view class="goods-desc">{{item.goods_name}}</view>
+       <view class="goods-price">¥{{item.goods_price}}</view>
+    </view>
+  </view>
+</view>

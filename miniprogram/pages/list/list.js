@@ -1,7 +1,8 @@
 // miniprogram/pages/list/list.js
 import {Category} from '../../storage/category'
 const MAX_FETCH_NUM = 6
-let page = 1
+let promotion = [{cat_id : -1,cat_name : '热销'},{cat_id : -2,cat_name : '优惠'}]
+let catId = -1
 Page({
 
   /**
@@ -21,7 +22,6 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    this.getCategory()
     this.initData()
   },
   async initData(){
@@ -33,6 +33,7 @@ Page({
     this.setData({
       categoryList,
     })
+    await this.getGoodsList()
   },
   async getCategory(){
     // 在小程序端访问数据库，需要将权限改为所有用户可读
@@ -53,7 +54,47 @@ Page({
       console.log(CategoryList)
       category.setStorage(CategoryList)
     } 
+    CategoryList = promotion.concat(CategoryList)
     return CategoryList
+  },
+
+  async getGoodsList(){
+    const data = {
+      $url:'list',
+      number:MAX_FETCH_NUM,
+      offset:this.data.goods.length,
+    }
+    if(catId == -1){
+      data.isRecomend = 1
+    }else if(catId == -2){
+      data.isSales = 1
+    }else if(catId>0){
+      data.pid = catId;
+    }
+    const list = await wx.cloud.callFunction({
+      name:'goods',
+      data
+    }).then(res=>res.result)
+    console.log(list)
+    if(list.length>0){
+      const goods = this.data.goods.concat(list);
+      this.setData({
+        goods
+      })
+    }else{
+      wx.showToast({
+        title: '亲,已经到底了哦~',
+        icon:"none"
+      })
+    }
+
+  },
+  chageCategory(e){
+    catId = e.detail.catId;
+    this.setData({
+      goods:[]
+    })
+   this.getGoodsList()
   },
   /**
    * 生命周期函数--监听页面初次渲染完成
