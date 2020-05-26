@@ -1,10 +1,17 @@
 <view class='goods-List'>
-<view class="goods-title">热销</view>
-  <view wx:for="{{goods}}" wx:key="goods_id" class="goods-item">
-    <image src="{{item.goods_img}}" class="goods-img"></image>
-    <view class="goods-info">
-       <view class="goods-desc">{{item.goods_name}}</view>
-       <view class="goods-price">¥{{item.goods_price}}</view>
-    </view>
-  </view>
+<view class="goods-title">{{title}}</view>
+  <scroll-view scroll-y="true" bindscrolltolower="onscrolltolower" class="scroll-goods-view">
+     <view wx:for="{{goods}}" wx:key="goods_id" class="goods-item">
+        <image src="{{item.goods_img}}" class="goods-img"></image>
+        <view class="goods-info">
+          <view class="goods-desc">{{item.goods_name}}</view>
+          <view class="goods-price">¥{{item.goods_price}}</view>
+          <view class="buy-number-container">
+             <text catchtap="editCart" data-goods-id="{{item.goods_id}}" data-type="2" class="~icon ~iconjian {{item.buyNumber==0?'hidden':''}}"></text>
+             <text class="number {{item.buyNumber==0?'hidden':''}}">{{item.buyNumber}}</text>
+             <text catchtap="editCart" data-goods-id="{{item.goods_id}}" data-type="1" class="~icon ~iconadd"></text>
+          </view>
+        </view>
+     </view>    
+  </scroll-view>
 </view>

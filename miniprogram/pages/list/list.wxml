@@ -1,9 +1,15 @@
-<mt-address address="{{address}}" a="icon" b="iconyou"></mt-address>
-<view class="body">
+<view id="address">
+   <mt-address address="{{address}}" a="icon" b="iconyou"></mt-address>
+</view>
+<view class="body" style="height:{{bodyHeight}}px;">
   <view class="body-category">
     <mt-category categoryList="{{categoryList}}" bind:change="chageCategory"></mt-category>
   </view>
   <view class="body-goods">
-    <mt-goods goods="{{goods}}"></mt-goods>
+    <mt-goods goods="{{goods}}"
+    title="{{rightTitle}}"
+    bind:loadMore="loadMore"
+    bind:editCart="editCart"></mt-goods>
   </view>
+  <mt-cart cart="{{cart}}"></mt-cart>
 </view>

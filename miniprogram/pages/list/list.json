@@ -2,7 +2,8 @@
   "usingComponents": {
     "mt-address":"../../components/list/address/index",
     "mt-category":"../../components/list/category/index",
-    "mt-goods":"../../components/list/goods/index"
+    "mt-goods":"../../components/list/goods/index",
+    "mt-cart":"../../components/list/cart/index"
   },
   "navigationBarTitleText": "点餐"
 }
