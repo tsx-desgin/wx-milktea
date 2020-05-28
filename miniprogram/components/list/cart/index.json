@@ -1,4 +1,6 @@
 {
   "component": true,
-  "usingComponents": {}
+  "usingComponents": {
+    "mt-buy-number":"../buy-number/index"
+  }
 }

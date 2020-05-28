@@ -1,3 +1,4 @@
+<mt-login isLogin="isLogin"></mt-login>
 <swiper 
 indicator-dots="{{true}}" 
 circular="{{true}}" 

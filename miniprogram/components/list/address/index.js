@@ -27,6 +27,16 @@ Component({
    * 组件的方法列表
    */
   methods: {
-
+    chooseAddress(){
+      // 跳转页面
+      // 可回跳
+      wx.navigateTo({
+        url: "/pages/address/address?from=list",
+      })
+      // 不可回跳
+      // wx.redirectTo({
+      //   url: "/pages/address/address?from=list",
+      // })
+    }
   }
 })

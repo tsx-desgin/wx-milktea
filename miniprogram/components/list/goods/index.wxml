@@ -1,16 +1,12 @@
 <view class='goods-List'>
 <view class="goods-title">{{title}}</view>
-  <scroll-view scroll-y="true" bindscrolltolower="onscrolltolower" class="scroll-goods-view">
+  <scroll-view scroll-y="{{true}}" refresher-enabled="{{true}}" bindscrolltolower="onscrolltolower" class="scroll-goods-view">
      <view wx:for="{{goods}}" wx:key="goods_id" class="goods-item">
         <image src="{{item.goods_img}}" class="goods-img"></image>
         <view class="goods-info">
           <view class="goods-desc">{{item.goods_name}}</view>
           <view class="goods-price">¥{{item.goods_price}}</view>
-          <view class="buy-number-container">
-             <text catchtap="editCart" data-goods-id="{{item.goods_id}}" data-type="2" class="~icon ~iconjian {{item.buyNumber==0?'hidden':''}}"></text>
-             <text class="number {{item.buyNumber==0?'hidden':''}}">{{item.buyNumber}}</text>
-             <text catchtap="editCart" data-goods-id="{{item.goods_id}}" data-type="1" class="~icon ~iconadd"></text>
-          </view>
+          <mt-buy-number bind:mttap="editCart" buyNumber="{{item.buyNumber}}" goodsId="{{item.goods_id}}"></mt-buy-number>
         </view>
      </view>    
   </scroll-view>

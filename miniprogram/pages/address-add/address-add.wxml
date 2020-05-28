@@ -1,0 +1,20 @@
+<l-list title="" is-link="{{false}}">
+  <view slot="right-section">
+      <l-input placeholder="请输入姓名" label="姓名" required="{{true}}" />
+  </view>
+</l-list>
+<l-list title="" is-link="{{false}}">
+  <view slot="right-section">
+      <l-input placeholder="请输入手机号码" label="手机" required="{{true}}" />
+  </view>
+</l-list>
+<l-list title="地区" >
+  <view slot="right-section">
+      
+  </view>
+</l-list>
+<l-list title="" is-link="{{false}}">
+  <view slot="right-section">
+      <l-input placeholder="请输入姓名" label="姓名" required="{{true}}" />
+  </view>
+</l-list>

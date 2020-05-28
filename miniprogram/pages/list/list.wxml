@@ -11,5 +11,5 @@
     bind:loadMore="loadMore"
     bind:editCart="editCart"></mt-goods>
   </view>
-  <mt-cart cart="{{cart}}"></mt-cart>
+  <mt-cart cart="{{cart}}" bind:editCart="editCart" bind:submit="submit"></mt-cart>
 </view>

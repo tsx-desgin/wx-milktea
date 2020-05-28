@@ -10,7 +10,6 @@ Component({
   // 监听cart的变化
   observers:{
     cart(val){
-      console.log('1',val)
       let total = 0;
       val.forEach(item => {
         total += item.goodsPrice * item.buyNumber
@@ -18,6 +17,11 @@ Component({
       this.setData({
         cartTotal:total
       })
+      if(val.length===0){
+        this.setData({
+          showList:false
+        })
+      }
     }
   },
 
@@ -33,10 +37,23 @@ Component({
    * 组件的方法列表
    */
   methods: {
-    showCartList(){
+    toggleCartList(){
+      if(this.properties.cart.length>0){
+        this.setData({
+          showList:!this.data.showList
+        })
+      }
+    },
+    hideCartList(){
       this.setData({
-        showList:!this.data.showList
+        showList:false
       })
+    },
+    editCart(e){
+      this.triggerEvent('editCart',e.detail)
+    },
+    cartSubmit(){
+      this.triggerEvent('submit')
     }
   }
 })

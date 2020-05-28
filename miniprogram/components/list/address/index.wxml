@@ -1,4 +1,4 @@
-<view class="address-container">
+<view class="address-container" bindtap="chooseAddress">
   <view class="address">
     <block wx:if="{{address.name}}">
        <view class="address-detail">

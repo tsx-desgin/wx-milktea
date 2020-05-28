@@ -5,6 +5,8 @@ const CartModel = new Cart();
 const MAX_FETCH_NUM = 6
 let promotion = [{cat_id : -1,cat_name : '热销'},{cat_id : -2,cat_name : '优惠'}]
 let catId = -1
+import {getConfig} from '../../utils/function'
+const AUTH_LOGIN_KEY = getConfig('app.auth_login_key')
 Page({
 
   /**
@@ -12,9 +14,6 @@ Page({
    */
   data: {
     address:{
-      name:'谭绍祥',
-      phone:17358829937,
-      detail:'湖南长沙'
     },
     categoryList:[],
     goods:[],
@@ -27,8 +26,17 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
+  onLoad: async function (options) {
+    const isLogin = await wx.getStorageSync(AUTH_LOGIN_KEY)
+    if(isLogin != 1){
+      // 跳转
+      wx.switchTab({
+        url: '/pages/home/home',
+      })
+      return
+    }
     this.initData()
+    console.log('onLoad')
   },
   async initData(){
     wx.showLoading({
@@ -45,15 +53,16 @@ Page({
     // 获取窗口的高度
     wx.getSystemInfo({//获取系统信息
       success: (res) => {
+        console.log(res)
         // 获取dom节点操作
         const query = wx.createSelectorQuery()
         // 获取单个节点的操作
         query.select('#address').boundingClientRect(result=>{
+          console.log(res.windowHeight-result.height)
           this.setData({
             bodyHeight:res.windowHeight-result.height
           })
         }).exec()
-
         // 可以用来获取多个dom节点操作信息
         // query.exec(result=>{
         //   console.log(result)
@@ -108,7 +117,7 @@ Page({
       name:'goods',
       data
     }).then(res=>res.result)
-    console.log(list)
+    // console.log(list)
     if(list.length>0){
       let goods = this.data.goods.concat(list);
       this.setData({
@@ -248,32 +257,39 @@ Page({
       })
     }
   },
+  
+  // 提交订单
+  submit(){
+    // 判断是否登录
+    // 判断是否选择地址
+    // 判断购物车是否为空
+  },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-
+    console.log('onReady')
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    console.log('onShow')
   },
 
   /**
    * 生命周期函数--监听页面隐藏
    */
   onHide: function () {
-
+    console.log('onHide')
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-
+    console.log('onUnload')
   },
 
   /**

@@ -22,12 +22,11 @@ Component({
     // 触底刷新
     onscrolltolower(){
       // 向父级传送一个事件
+      console.log('111')
       this.triggerEvent('loadMore')
     },
     editCart(e){
-      const goodsId = parseInt(e.currentTarget.dataset.goodsId) 
-      const type = parseInt(e.currentTarget.dataset.type)
-      this.triggerEvent('editCart',{goodsId,type})
+      this.triggerEvent('editCart',e.detail)
     }
   }
 })

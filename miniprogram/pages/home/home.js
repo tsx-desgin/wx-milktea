@@ -15,9 +15,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    swiperList:[
-     
-    ],
+    swiperList:[],
     navList:[],
     bannerList:[],
   },
@@ -29,12 +27,12 @@ Page({
     this.initData()
   },
   async initData (){
+    const AUTH_LOGIN_KEY = getConfig('app.auth_login_key')
     wx.showLoading({
       title: '加载中',
       mask:true
     })
     const navList =await this.getNavigate()
-    console
     const bannerList=await this.getbanner()
     const swiperList =await this.getRecommend()
     wx.hideLoading()
@@ -96,7 +94,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    
+
   },
 
   /**

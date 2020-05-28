@@ -1,0 +1,1 @@
+<view class="add-btn" bindtap="toAddAddress">添加新地址</view>
