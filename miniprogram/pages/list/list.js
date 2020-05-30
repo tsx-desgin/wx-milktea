@@ -1,6 +1,7 @@
 // miniprogram/pages/list/list.js
 import {Category} from '../../storage/category'
 import {Cart} from '../../modal/Cart'
+import {Address} from '../../modal/address'
 const CartModel = new Cart();
 const MAX_FETCH_NUM = 6
 let promotion = [{cat_id : -1,cat_name : '热销'},{cat_id : -2,cat_name : '优惠'}]
@@ -257,7 +258,11 @@ Page({
       })
     }
   },
-  
+  // 获取地址信息
+  async getAddress(){
+    const address = await Address.getDefaultAddressOrSelect();
+    console.log(address)
+  },
   // 提交订单
   submit(){
     // 判断是否登录
@@ -275,7 +280,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    console.log('onShow')
+    this.getAddress()
   },
 
   /**

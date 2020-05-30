@@ -3,5 +3,6 @@ export default{
   banner:'banner', //首页banner
   swiper:'swiper',
   category:'category',
-  token:'token'
+  token:'token',
+  selectAddress:'address'
 }

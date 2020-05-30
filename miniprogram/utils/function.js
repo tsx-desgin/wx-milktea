@@ -21,6 +21,31 @@ const getConfig = function (name) {
   }
 }
 
+const isObject = obj=>{
+  return typeof obj ==='object' && obj!=null
+}
+const isEmpty = obj =>{
+  if(!isObject(obj)){
+    return !obj
+  }
+  return Object.keys(obj).length ===0
+}
+const validate =function(data,validateObj){
+  for(let key in data){
+      if(Reflect.has(validateObj,key)){
+          const res=validateObj[key](data[key],data.password);
+          console.log(res);
+          if(res.error!=0){
+              return res;
+          }
+      }
+  }
+  return {error:0}
+}
+
 export {
   getConfig,
+  isObject,
+  isEmpty,
+  validate
 }

@@ -1,20 +1,33 @@
-<l-list title="" is-link="{{false}}">
-  <view slot="right-section">
-      <l-input placeholder="请输入姓名" label="姓名" required="{{true}}" />
-  </view>
-</l-list>
-<l-list title="" is-link="{{false}}">
-  <view slot="right-section">
-      <l-input placeholder="请输入手机号码" label="手机" required="{{true}}" />
-  </view>
-</l-list>
-<l-list title="地区" >
-  <view slot="right-section">
-      
-  </view>
-</l-list>
-<l-list title="" is-link="{{false}}">
-  <view slot="right-section">
-      <l-input placeholder="请输入姓名" label="姓名" required="{{true}}" />
-  </view>
-</l-list>
+<form bindsubmit="saveAddress">
+  <l-list title="" is-link="{{false}}">
+    <view slot="right-section">
+        <l-input placeholder="请输入姓名" label="姓名" name="name" required="{{true}}" />
+    </view>
+  </l-list>
+  <l-list title="" is-link="{{false}}">
+    <view slot="right-section">
+        <l-input placeholder="请输入手机号码" label="手机" name="phone" required="{{true}}" />
+    </view>
+  </l-list>
+  <l-list title="地区" gap="20">
+    <view slot="right-section">
+      <picker mode="region" bindchange="bindRegionChange" value="{{region}}" custom-item="{{customItem}}">
+        <view class="picker">
+          <!-- 当前选择：{{region[0]}}，{{region[1]}}，{{region[2]}} -->
+          {{region.length>0?region[0]+region[1]+region[2]:'请选择' }}
+        </view>
+      </picker>
+    </view>
+  </l-list>
+  <l-list title="" is-link="{{false}}">
+    <view slot="right-section">
+        <l-input placeholder="请输入详细地址" label="详细地址" name="detail" required="{{true}}" />
+    </view>
+  </l-list>
+  <l-list title="设置为默认地址" gap="20" is-link="{{false}}">
+    <view slot="right-section">
+      <switch  name="isDefault"/>
+    </view>
+  </l-list>
+  <button form-type="submit" class="submit">提交</button>
+</form>

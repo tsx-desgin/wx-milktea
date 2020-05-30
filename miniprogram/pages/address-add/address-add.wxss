@@ -6,3 +6,8 @@ page{
 .form-label{
   padding-right: 0;
 }
+.submit{
+  background: #ffcc00;
+  color: #fff;
+  margin-top: 20rpx;
+}

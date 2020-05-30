@@ -1,20 +1,69 @@
-// miniprogram/pages/address-add/address-add.js
+import {Address} from '../../modal/address'
+import {validate} from '../../utils/function'
+import addressValidate from '../../validate/address'
+import {getConfig} from '../../utils/function'
+const ADDRESS_STORE_NAME = getConfig('storage.selectAddress')
+let navigateType = '';
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-
+    region: [],
+    customItem: '全部'
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    navigateType = options.from || ''
   },
-
+  bindRegionChange(e){
+    // console.log(e.detail.value)
+    const detail = e.detail.value
+    this.setData({
+      region:detail
+    })
+  },
+  async saveAddress(e){
+    console.log(e)
+    const data = e.detail.value;
+    data.region = this.data.region
+    const vali = validate(data,addressValidate)
+    if(vali.error!==0){
+      wx.showToast({
+        title: vali.message,
+        icon:'none'
+      })
+      return
+    } 
+    wx.showLoading({
+      title: '提交中',
+      mask:true
+    })
+    const res = await Address.add(data)
+    wx.hideLoading()
+    console.log(res)
+    if(res.success===1){
+      data._id = res.addressId
+      wx.setStorageSync(ADDRESS_STORE_NAME, data)
+      wx.showToast({
+        title: '添加成功',
+      })
+      if(navigateType === 'list'){
+        wx.switchTab({
+          url: "/pages/list/list",
+        })
+      }
+    }else{
+      wx.showToast({
+        title: res.message,
+        icon:'none'
+      })
+    }
+  },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
