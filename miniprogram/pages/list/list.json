@@ -5,5 +5,6 @@
     "mt-goods":"../../components/list/goods/index",
     "mt-cart":"../../components/list/cart/index"
   },
-  "navigationBarTitleText": "点餐"
+  "navigationBarTitleText": "点餐",
+  "enablePullDownRefresh":true
 }

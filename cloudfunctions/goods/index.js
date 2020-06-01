@@ -34,6 +34,7 @@ exports.main = async (event, context) => {
 
   // 获取商品分类
   app.router('category', async(ctx) =>{
+    console.log('11',ctx);
     const parentId = parseInt(event.parent_id||0) 
     const category = await categoryCollection.where({
       parent_id:parentId

@@ -2,7 +2,7 @@
   <view class="address">
     <block wx:if="{{address.name}}">
        <view class="address-detail">
-        {{address.detail}}
+        {{address.region[0]}}{{address.region[1]}}{{address.region[2]}}{{address.detail}}
         <text class="~icon ~iconyou"></text>   
        </view>
        <view class="address-info">

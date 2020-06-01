@@ -10,3 +10,60 @@
   bottom: 0;
   left: 0;
 }
+.address-list{
+  width: 100%;
+  margin-top:20rpx ;
+}
+.address-item{
+    width: 100%;
+    height: 176rpx;
+    background: #fff;
+    padding: 40rpx 32rpx;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.address-content{
+    width: 0;
+    flex: 1;
+    color: #666;
+    height: 100%;
+    font-size:24rpx;
+}
+.address-name{
+    font-size:32rpx ;
+    height: 42rpx;
+    margin-bottom:20rpx ;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.address-detail{
+  font-size: 24rpx;
+  display: flex;
+}
+.address-detail text{
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+.icon{
+    font-size: 40rpx;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50rpx;
+    height: 100%;
+}
+.address-detail.selected{
+   background: #ffcc00;
+}   
+.address-detail.selected .address-content{
+  width: 0;
+  flex: 1;
+  height: 100%;
+  color: #ffffff;
+}        

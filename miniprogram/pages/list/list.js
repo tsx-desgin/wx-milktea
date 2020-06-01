@@ -14,8 +14,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    address:{
-    },
+    address:{},
     categoryList:[],
     goods:[],
     bodyHeight:0,
@@ -36,15 +35,14 @@ Page({
       })
       return
     }
-    this.initData()
-    console.log('onLoad')
   },
   async initData(){
     wx.showLoading({
       title: '加载中',
     })
+    await this.getAddress()
     const categoryList = await this.getCategory()
-    console.log(categoryList)
+    // console.log(categoryList)
     wx.hideLoading()
     this.setData({
       categoryList,
@@ -261,6 +259,9 @@ Page({
   // 获取地址信息
   async getAddress(){
     const address = await Address.getDefaultAddressOrSelect();
+    this.setData({
+      address
+    })
     console.log(address)
   },
   // 提交订单
@@ -280,7 +281,16 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    this.getAddress()
+    this.initData()
+  },
+  resetData (){
+    this.setData({
+      address:{},
+      categoryList:[],
+      goods:[],
+      hasMore:true,
+      cart:[]
+    })
   },
 
   /**
@@ -294,14 +304,17 @@ Page({
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-    console.log('onUnload')
+   
   },
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
-  onPullDownRefresh: function () {
-
+  onPullDownRefresh: async function () {
+    this.resetData()
+    await this.initData()
+    // 停止下拉
+    wx.stopPullDownRefresh()
   },
 
   /**

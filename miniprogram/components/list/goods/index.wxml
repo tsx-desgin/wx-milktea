@@ -1,6 +1,6 @@
 <view class='goods-List'>
 <view class="goods-title">{{title}}</view>
-  <scroll-view scroll-y="{{true}}" refresher-enabled="{{true}}" bindscrolltolower="onscrolltolower" class="scroll-goods-view">
+  <scroll-view scroll-y="{{true}}"  bindscrolltolower="onscrolltolower" class="scroll-goods-view">
      <view wx:for="{{goods}}" wx:key="goods_id" class="goods-item">
         <image src="{{item.goods_img}}" class="goods-img"></image>
         <view class="goods-info">
