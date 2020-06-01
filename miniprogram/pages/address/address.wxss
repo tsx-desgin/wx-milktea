@@ -23,6 +23,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-bottom: 20rpx;
 }
 .address-content{
     width: 0;
@@ -40,14 +41,19 @@
     align-items: center;
 }
 .address-detail{
-  font-size: 24rpx;
+  /* line-height: 35rpx; */
   display: flex;
 }
-.address-detail text{
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  line-clamp: 2;
-  -webkit-box-orient: vertical;
+.address-detail .left{
+  width: 20%;
+}
+.address-detail .right{
+ width: 80%;
+ /* flex-wrap: wrap; */
+ display:-webkit-box; 
+ overflow:hidden; 
+ -webkit-box-orient:vertical;
+ -webkit-line-clamp:2; 
 }
 .icon{
     font-size: 40rpx;
