@@ -6,8 +6,9 @@ const CartModel = new Cart();
 const MAX_FETCH_NUM = 6
 let promotion = [{cat_id : -1,cat_name : '热销'},{cat_id : -2,cat_name : '优惠'}]
 let catId = -1
-import {getConfig} from '../../utils/function'
+import {getConfig,isEmpty} from '../../utils/function'
 const AUTH_LOGIN_KEY = getConfig('app.auth_login_key')
+const ADDRESS_STORE_NAME = getConfig('storage.selectAddress')
 Page({
 
   /**
@@ -262,13 +263,33 @@ Page({
     this.setData({
       address
     })
+    const storageAddress = wx.getStorageSync(ADDRESS_STORE_NAME);
+    if(!storageAddress && !isEmpty(storageAddress)){
+      wx.setStorageSync(ADDRESS_STORE_NAME, address);
+    }
     console.log(address)
   },
   // 提交订单
   submit(){
-    // 判断是否登录
     // 判断是否选择地址
+    if(isEmpty(this.data.address)){
+      wx.showToast({
+        title: '请选择地址',
+        icon:'none'
+      })
+      return
+    }
     // 判断购物车是否为空
+    if(this.data.cart.length===0){
+      wx.showToast({
+        title: '请选择商品',
+        icon:'none'
+      })
+      return
+    }
+    wx.navigateTo({
+      url: "/pages/settlement/settlement",
+    })
   },
   /**
    * 生命周期函数--监听页面初次渲染完成

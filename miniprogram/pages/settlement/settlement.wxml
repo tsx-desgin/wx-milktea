@@ -1,0 +1,23 @@
+<view class="address-container">
+   <view class="address">{{address.region[0]}}{{address.region[1]}}{{address.region[2]}}{{address.detail}}<text class="icon iconyou"></text></view>
+   <view class="name">
+    <text class="addressname">{{address.name}}</text>
+    <text>{{address.phone}}</text>
+   </view>
+</view>
+<view class="cart-container">
+   <block wx:for="{{cart}}" wx:key="_id">
+      <view class="cart-item">
+       <image src="{{item.goodsImg}}"></image>
+       <view class="cart-info">
+         <view class="cart-desc">
+           {{item.goodsName}}
+         </view>
+         <view class="cart-statistical">
+           <text class="cart-price">¥{{item.goodsPrice}}</text>
+         </view>
+          <mt-buy-number  bind:mttap="editCart" goodsId="{{item.goodsId}}" buyNumber="{{item.buyNumber}}"></mt-buy-number>
+       </view>
+     </view>
+   </block>
+</view>

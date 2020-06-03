@@ -1,19 +1,22 @@
 <view class="address-list">
   <view class="address">
-      <view class="address-item border-bottom {{item.selected?'selected':''}}" wx:for="{{address}}" 
-       wx:key="_id" bindtap="chooseAddress">
-          <view class="address-content">
-              <view class="address-name">
-                  <text>收货人: {{item.name}}</text>
-                  <text>{{item.phone}}</text>
-              </view>
-              <view class="address-detail">
-                  <view class="left">收货地址:</view> 
-                  <view class="right">{{item.region[0]}}{{item.region[1]}}{{item.region[2]}}{{item.detail}}</view> 
-              </view>
-          </view>
-          <text class="icon iconicon-test1"></text>
+       <block wx:for="{{address}}" wx:key="_id">
+            <mp-slideview buttons="{{slideButtons}}" bindbuttontap="slideButtonTap" data-id="{{item._id}}" icon="{{true}}">
+              <view class="address-item border-bottom {{item.selected?'selected':''}}" data-id="{{item._id}}" bindtap="chooseAddress">
+                <view class="address-content">
+                    <view class="address-name">
+                        <text>收货人: {{item.name}}</text>
+                        <text>{{item.phone}}</text>
+                    </view>
+                    <view class="address-detail">
+                        <view class="left">收货地址:</view> 
+                        <view class="right">{{item.region[0]}}{{item.region[1]}}{{item.region[2]}}{{item.detail}}</view> 
+                    </view>
+                </view>
+                <text class="icon iconicon-test1"></text> 
+               </view> 
+            </mp-slideview>
+        </block>  
       </view>
-  </view>
 </view>
 <view class="add-btn" bindtap="toAddAddress">添加新地址</view>

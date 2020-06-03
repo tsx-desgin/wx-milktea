@@ -24,7 +24,7 @@
 	},
 	"appid": "wxd763a433c418bf7c",
 	"projectname": "wx-milktea",
-	"libVersion": "2.11.1",
+	"libVersion": "2.11.0",
 	"simulatorType": "wechat",
 	"simulatorPluginLibVersion": {},
 	"condition": {
@@ -75,6 +75,13 @@
 					"name": "pages/address-add/address-add",
 					"pathName": "pages/address-add/address-add",
 					"query": "from=list",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/settlement/settlement",
+					"pathName": "pages/settlement/settlement",
+					"query": "",
 					"scene": null
 				}
 			]

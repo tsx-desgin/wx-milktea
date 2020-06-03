@@ -42,6 +42,7 @@
 }
 .address-detail{
   /* line-height: 35rpx; */
+  font-size: 26rpx;
   display: flex;
 }
 .address-detail .left{
@@ -64,10 +65,10 @@
     width: 50rpx;
     height: 100%;
 }
-.address-detail.selected{
+.address-item.selected{
    background: #ffcc00;
 }   
-.address-detail.selected .address-content{
+.address-item.selected .address-content{
   width: 0;
   flex: 1;
   height: 100%;

@@ -1,12 +1,12 @@
 <form bindsubmit="saveAddress">
   <l-list title="" is-link="{{false}}">
     <view slot="right-section">
-        <l-input placeholder="请输入姓名" label="姓名" name="name" required="{{true}}" />
+        <l-input placeholder="请输入姓名" label="姓名" name="name" value="{{address.name}}" required="{{true}}" />
     </view>
   </l-list>
   <l-list title="" is-link="{{false}}">
     <view slot="right-section">
-        <l-input placeholder="请输入手机号码" label="手机" name="phone" required="{{true}}" />
+        <l-input placeholder="请输入手机号码" label="手机" name="phone" value="{{address.phone}}" required="{{true}}" />
     </view>
   </l-list>
   <l-list title="地区" gap="20">
@@ -21,12 +21,12 @@
   </l-list>
   <l-list title="" is-link="{{false}}">
     <view slot="right-section">
-        <l-input placeholder="请输入详细地址" label="详细地址" name="detail" required="{{true}}" />
+        <l-input placeholder="请输入详细地址" label="详细地址" name="detail" value="{{address.detail}}" required="{{true}}" />
     </view>
   </l-list>
   <l-list title="设置为默认地址" gap="20" is-link="{{false}}">
     <view slot="right-section">
-      <switch  name="isDefault"/>
+      <switch  name="isDefault" checked="{{address.isDefault}}"/>
     </view>
   </l-list>
   <button form-type="submit" class="submit">提交</button>

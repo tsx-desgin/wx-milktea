@@ -1,0 +1,6 @@
+{
+  "usingComponents": {
+    "mt-buy-number":"../../components/list/buy-number/index"
+  },
+  "navigationBarTitleText": "订单结算"
+}

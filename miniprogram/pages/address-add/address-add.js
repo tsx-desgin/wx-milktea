@@ -1,9 +1,10 @@
 import {Address} from '../../modal/address'
 import {validate} from '../../utils/function'
 import addressValidate from '../../validate/address'
-import {getConfig} from '../../utils/function'
+import {getConfig,isEmpty} from '../../utils/function'
 const ADDRESS_STORE_NAME = getConfig('storage.selectAddress')
 let navigateType = '';
+let addressId = ''
 Page({
 
   /**
@@ -11,7 +12,8 @@ Page({
    */
   data: {
     region: [],
-    customItem: '全部'
+    customItem: '全部',
+    address:{}
   },
 
   /**
@@ -19,6 +21,21 @@ Page({
    */
   onLoad: function (options) {
     navigateType = options.from || ''
+    addressId = options.id|| ''
+  },
+  getAddress(){
+    if(!addressId){
+      return
+    }
+    Address.getAddressById(addressId).then(res =>{
+      if(!isEmpty(res)){
+        this.setData({
+          address:res,
+          region:res.region,
+        })
+      }
+      console.log(res)
+    })
   },
   bindRegionChange(e){
     // console.log(e.detail.value)
@@ -43,18 +60,28 @@ Page({
       title: '提交中',
       mask:true
     })
-    const res = await Address.add(data)
+    let res;
+    if(addressId !==''){
+      res = await Address.update(data,addressId)
+    }else{
+      res = await Address.add(data)
+    }
     wx.hideLoading()
     console.log(res)
     if(res.success===1){
       data._id = res.addressId
       wx.setStorageSync(ADDRESS_STORE_NAME, data)
       wx.showToast({
-        title: '添加成功',
+        title: addressId!=''?'修改成功':'添加成功',
       })
-      if(navigateType === 'list'){
+      if(navigateType === 'list' &&addressId ===''){
         wx.switchTab({
           url: "/pages/list/list",
+        })
+      }else{
+        console.log(navigateType)
+        wx.redirectTo({
+          url: '/pages/address/address?from='+navigateType,
         })
       }
     }else{
@@ -75,7 +102,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    this.getAddress()
   },
 
   /**
