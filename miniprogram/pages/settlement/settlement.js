@@ -62,10 +62,10 @@ Page({
   },
   async reformGoods(){
     const cart = await cartList.getCart() 
-    const goods = this.data.goods.map(item =>{
+    const goods = this.data.cart.map(item =>{
       item.buyNumber=0;
       // 根据购物车中的数据处理buyNumber
-      const tmp = cart.filter(val =>val.goodsId==item.goods_id)
+      const tmp = cart.filter(val =>val.goodsId==item.goodsId)
       if(tmp.length>0){
         item.buyNumber = tmp[0].buyNumber
       }
@@ -87,7 +87,8 @@ Page({
     wx.hideLoading()
   },
   async addCart(goodsId){
-    let goods = this.data.goods.filter(item =>item.goods_id===goodsId)
+    console.log(this.data.cart)
+    let goods = this.data.cart.filter(item =>item.goodsId===goodsId)
     let res;
     if(goods.length==0){
       wx.showToast({
@@ -99,14 +100,15 @@ Page({
     goods = goods[0];
     const cart =await cartList.getCart(goodsId)
     if(cart.length==0){
-      const data = {
-        goodsId:goods.goods_id,
-        goodsName:goods.goods_name,
-        goodsImg:goods.goods_img,
-        goodsPrice:goods.goods_price,
-        buyNumber:1,
-      }
-      res =await cartList.setCart(data)
+     wx.showToast({
+       title: '请选择商品',
+       icon:'none'
+     })
+     setTimeout(() => {
+       wx.switchTab({
+         url: '/pages/list/list',
+       })
+     }, 1500);
     }else{
       const buyNumber = cart[0].buyNumber+1
       res = await cartList.updateCartbuyNumber(goodsId,buyNumber);
@@ -116,6 +118,7 @@ Page({
         title: '添加成功',
       })
       this.reformGoods()
+      this.checkAuth()
     }else{
       wx.showToast({
         title: '添加失败',
@@ -123,7 +126,7 @@ Page({
     }
   },
   async reduceCart(goodsId){
-    let goods = this.data.goods.filter(item =>item.goods_id===goodsId)
+    let goods = this.data.cart.filter(item =>item.goodsId===goodsId)
     if(goods.length==0){
       wx.showToast({
         title: '没有找到此商品',
@@ -152,11 +155,22 @@ Page({
         title: '操作成功',
       })
       this.reformGoods()
+      this.checkAuth()
     }else{
       wx.showToast({
         title: '操作失败',
       })
     }
+  },
+  chooseAddress(){
+    const random = ['0','1','2','3','4','5','6','7','8','9','0','a','b','c','d','e','f','g','h','i','j']
+    let settId=""
+    for(let i = 0;i<4;i++){
+      settId+=random[parseInt(Math.random()*(random.length))]
+    }
+    wx.navigateTo({
+      url: "/pages/address/address?from=list&settId="+settId,
+    })
   },
   /**
    * 生命周期函数--监听页面加载

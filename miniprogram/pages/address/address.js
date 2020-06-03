@@ -4,6 +4,7 @@ import {Address} from '../../modal/address'
 import {getConfig,isEmpty} from '../../utils/function'
 const AUTH_LOGIN_KEY = getConfig('app.auth_login_key')
 const ADDRESS_STORE_NAME = getConfig('storage.selectAddress')
+let settId;
 Page({
 
   /**
@@ -16,6 +17,7 @@ Page({
   },
   async getAddressList(){
     let address = await Address.getAddress()
+    // console.log(address)
     if(navigateType === 'list'){
       const storageAddress = wx.getStorageSync(ADDRESS_STORE_NAME);
       address = address.map(item => {
@@ -26,6 +28,7 @@ Page({
         return item
       })
       const index = address.findIndex(item => item.selected);
+      // console.log(index)
       let selectAddress;
       if(index>-1){
         selectAddress = address[index];
@@ -44,6 +47,7 @@ Page({
    */
   onLoad: function (options) {
     navigateType = options.from || ''
+    settId = options.settId||''
     const navigateTitle = navigateType ==='list' ? '选择地址' : '我的地址' 
     // 设置title
     wx.setNavigationBarTitle({
@@ -140,9 +144,15 @@ Page({
     if(address.length>0){
       address[0].selected=true
       wx.setStorageSync(ADDRESS_STORE_NAME, address[0]);
-      wx.switchTab({
-        url: '/pages/list/list',
-      })
+      if(settId){
+        wx.redirectTo({
+          url: '/pages/settlement/settlement',
+        })
+      }else{
+        wx.switchTab({
+          url: '/pages/list/list',
+        })
+      }
     }
   },
   /**
