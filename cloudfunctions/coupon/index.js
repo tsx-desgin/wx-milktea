@@ -11,6 +11,7 @@ const couponCollection = db.collection('coupon');
 const userCouponCollection = db.collection('user_coupon');
 const UserCollection = db.collection('user')
 const TcbRouter = require('tcb-router');
+const {isObject,isEmpty,uniq} = require('lodash');
 const _ =db.command
 
 // 云函数入口函数
@@ -53,6 +54,27 @@ exports.main = async (event, context) => {
         isUser:false,
         expire:_.gt(now)
       }).get().then(res =>res.data)
+      let couponIds = list.map(item => item.couponId)
+      // 去重
+      couponIds = uniq(couponIds)
+      const coupon = await couponCollection.where({
+        _id:_.in(couponIds)
+      }).field({
+        money:true,
+        orderTotal:true
+      }).get().then(res => res.data)
+      list = list.map(item =>{
+        item.coupon={}
+        const index = coupon.findIndex(val => val._id == item.couponId)
+        if(index > -1){
+          // 删除数组中的key
+          // delete coupon[index]._id
+          Reflect.deleteProperty(coupon[index],'_id')
+          item.coupon = coupon[index]
+        }
+        // const result = {...item,...coupon[index]}
+        return item
+      })
       ctx.body =list
     } catch (error) {
       console.log('get-user-coupon',error)

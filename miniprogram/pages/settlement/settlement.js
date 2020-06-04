@@ -12,7 +12,56 @@ Page({
    */
   data: {
     address:{},
-    cart:[]
+    cart:[],
+    checkboxImg:{
+      'default':'../../images/checkbox.png',
+      'checked':'/images/checkbox@checked.png'
+    },
+    coupon:[],
+    userCoupon:[],
+    userSelectCouponId:0,
+    orderTotal:0,
+    actualPayment:0,
+    couponMoney:0
+  },
+  chooseCoupon(e){
+    console.log(e)
+    const id = e.detail.key;
+    const selected = e.detail.checked
+    let userCoupon = this.data.userCoupon;
+    const index = userCoupon.findIndex(item =>item._id ===id)
+    const selectCoupon = userCoupon[index]
+    if(selectCoupon.coupon.orderTotal>0 && this.data.orderTotal < selectCoupon.coupon.orderTotal){
+      wx.showToast({
+        title: '订单需要满'+selectCoupon.coupon.orderTotal+'元才能使用',
+        icon:'none',
+        mask:true
+      })
+      return
+    }
+    userCoupon = userCoupon.map(item =>{
+      if(selected){
+        item.selected =false
+      }
+      if(item._id === id){
+        item.selected = selected
+      }
+      return item
+    })
+    let actualPayment,couponMoney
+    if(selected){
+      actualPayment = this.data.orderTotal - selectCoupon.coupon.money
+      couponMoney = selectCoupon.coupon.money
+    }else{
+      actualPayment = this.data.orderTotal
+      couponMoney = 0
+    }
+    console.log(actualPayment)
+    this.setData({
+      actualPayment,
+      userCoupon,
+      couponMoney
+    })
   },
   async checkAuth (){
     const isLogin = await wx.getStorageSync(AUTH_LOGIN_KEY)
@@ -50,14 +99,28 @@ Page({
         return
     }
     console.log(cart)
+    const orderTotal = cart.reduce((item1,item2)=>{
+      return item1.buyNumber*item1.goodsPrice + item2.buyNumber*item2.goodsPrice
+    })
+    console.log(orderTotal)
     this.setData({
       address,
-      cart
+      cart,
+      orderTotal,
+      actualPayment:orderTotal
     })
   },
   async getCoupon(){
    const coupon = await Coupon.getCoupon()
-   const userCoupon = await Coupon.getUserCoupon()
+   let userCoupon = await Coupon.getUserCoupon()
+   userCoupon = userCoupon.map(item =>{
+     item.selected = false
+     return item
+   })
+   this.setData({
+     coupon,
+     userCoupon
+   })
    console.log(coupon,userCoupon)
   },
   async reformGoods(){
@@ -84,6 +147,14 @@ Page({
     }else{
       await this.reduceCart(goodsId)
     }
+    let userCoupon = this.data.userCoupon
+    userCoupon = userCoupon.map(item => {
+      item.selected = false
+      return item
+    })
+    this.setData({
+      userCoupon
+    }) 
     wx.hideLoading()
   },
   async addCart(goodsId){
@@ -141,6 +212,11 @@ Page({
         title: '不能再减了~~~',
         icon:'none'
       })
+      setTimeout(() => {
+        wx.switchTab({
+          url: '/pages/list/list',
+        })
+      }, 1500);
       return
     }
     let res;
@@ -168,7 +244,7 @@ Page({
     for(let i = 0;i<4;i++){
       settId+=random[parseInt(Math.random()*(random.length))]
     }
-    wx.navigateTo({
+    wx.redirectTo({
       url: "/pages/address/address?from=list&settId="+settId,
     })
   },
