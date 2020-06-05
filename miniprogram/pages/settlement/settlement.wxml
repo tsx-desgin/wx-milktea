@@ -45,5 +45,5 @@
      <text class="actualPayment">实付款: ¥{{actualPayment}}元</text>
      <text class="order-info">订单总额¥{{orderTotal}} - 优惠券(¥{{couponMoney}})</text>
    </view>
-   <view class="btn">提交</view>
+   <view class="btn" bindtap="orderSubmit">提交</view>
 </view>

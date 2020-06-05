@@ -248,6 +248,45 @@ Page({
       url: "/pages/address/address?from=list&settId="+settId,
     })
   },
+  async orderSubmit(){
+    if(isEmpty(this.data.address)){
+      wx.showToast({
+        title: '请选择地址',
+        icon:'none',
+        mask:true
+      })
+      return
+    }
+    if(this.data.cart.length === 0){
+      wx.showToast({
+        title: '请选择商品',
+        icon:'none',
+        mask:true
+      })
+      return
+    }
+    const goods = this.data.cart.map(item =>{
+      return{
+        goodsId : item.goodsId,
+        buyNumber:item.buyNumber
+      }
+    })
+    let userCouponId = this.data.userCoupon.filter(item => item.selected)
+    if(userCouponId.length>0){
+      userCouponId = userCouponId[0]._id
+    }else{
+      userCouponId = ''
+    }
+    await wx.cloud.callFunction({
+      name:'order',
+      data:{
+        $url:'add',
+        addressId:this.data.address._id,
+        goods,
+        userCouponId
+      }
+    }).then(res => console.log(res.result))
+  },
   /**
    * 生命周期函数--监听页面加载
    */
