@@ -5,6 +5,7 @@ import {Coupon} from '../../modal/coupon'
 const cartList = new Cart()
 const AUTH_LOGIN_KEY = getConfig('app.auth_login_key')
 const ADDRESS_STORE_NAME = getConfig('storage.selectAddress')
+import {Order} from '../../modal/Order'
 Page({
 
   /**
@@ -99,9 +100,10 @@ Page({
         return
     }
     console.log(cart)
+  
     const orderTotal = cart.reduce((item1,item2)=>{
-      return item1.buyNumber*item1.goodsPrice + item2.buyNumber*item2.goodsPrice
-    })
+      return item2.buyNumber * item2.goodsPrice
+    },0)
     console.log(orderTotal)
     this.setData({
       address,
@@ -277,15 +279,40 @@ Page({
     }else{
       userCouponId = ''
     }
-    await wx.cloud.callFunction({
-      name:'order',
-      data:{
-        $url:'add',
-        addressId:this.data.address._id,
-        goods,
-        userCouponId
-      }
-    }).then(res => console.log(res.result))
+    wx.showLoading({
+      title: '订单提交中',
+      mask:true
+    })
+    const data={
+      addressId:this.data.address._id,
+      goods,
+      userCouponId
+    }
+    const res = await Order.add(data)
+    wx.hideLoading()
+    if(res.success === 1){
+      // 调起支付处理
+      // wx.requestPayment({
+      //   nonceStr: 'nonceStr',
+      //   package: 'package',
+      //   paySign: 'paySign',
+      //   timeStamp: 'timeStamp',
+      // })
+      setTimeout(() => {
+        wx.showToast({
+          title: '提交成功',
+          mask:true
+        })
+      }, 1500);
+      wx.switchTab({
+        url: '/pages/order/order',
+      })
+    }else{
+      wx.showToast({
+        title: res.message,
+        icon:'none'
+      })
+    }
   },
   /**
    * 生命周期函数--监听页面加载

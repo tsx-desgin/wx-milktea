@@ -1,4 +1,4 @@
-// miniprogram/pages/my/my.js
+import {User} from '../../modal/User'
 Page({
 
   /**
@@ -7,12 +7,15 @@ Page({
   data: {
 
   },
-
+  async getUser(){
+   const user = await User.getDetail()
+   console.log(user)
+  },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    this.getUser()
   },
 
   /**

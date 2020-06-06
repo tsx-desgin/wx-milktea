@@ -1,2 +1,2 @@
-<!--miniprogram/pages/my/my.wxml-->
-<text>miniprogram/pages/my/my.wxml</text>
+<open-data type="userAvatarUrl"></open-data>
+<open-data type="userNickName"></open-data>

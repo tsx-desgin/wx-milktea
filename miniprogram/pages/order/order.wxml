@@ -1,2 +1,7 @@
-<!--miniprogram/pages/order/order.wxml-->
-<text>miniprogram/pages/order/order.wxml</text>
+<view class="status-tab">
+  <l-segment bind:linchange="orderTab" active-key="{{orderStatus}}" l-active-class="tab-active" l-line-class="tab-active-line" l-inactive-class="tab-inactive">
+    <block wx:for="{{orderTabBar}}" wx:key="state">
+      <l-segment-item tab="{{item.name}}" key="{{item.state}}" />
+    </block>
+  </l-segment>  
+</view>

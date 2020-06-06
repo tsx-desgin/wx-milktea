@@ -14,7 +14,7 @@ const UserCollection = db.collection('user')
 const couponCollection = db.collection('coupon');
 const userCouponCollection = db.collection('user_coupon');
 const TcbRouter = require('tcb-router');
-const {isObject,isEmpty,uniq} = require('lodash');
+const {isObject,isEmpty,uniq,random} = require('lodash');
 const _ =db.command
 
 // 云函数入口函数
@@ -120,16 +120,22 @@ exports.main = async (event, context) => {
     }
     address= address[0]
      //  组装订单数据
+     const orderStatus = random(0 , 2) //0 待支付 1 已支付 2 已发货 3 已评论 4 已取消
      const data = {
+      userId:ctx.userId,
       consignee : address.name,
       phone : address.phone,
       address : address.region[0]+address.region[1]+address.region[2]+address.detail,
       orderTotal,
       actualPayment:orderTotal - couponMoney,
       couponMoney,
-      status:0,
+      status:orderStatus,
       createTime:db.serverDate(),
       goods:orderGoods
+    }
+    switch(orderStatus){
+      case 1 : data.payTime = db.serverDate();break;
+      case 2 : data.sendTime = db.serverDate();break;
     }
     // 事务
     const result = await db.runTransaction(async transaction =>{
@@ -147,6 +153,7 @@ exports.main = async (event, context) => {
                 stock : _.inc(-1*orderGoods[i].buyNumber)
               }
             })
+            console.log('r1',r1);
             const r2 = await transaction.collection('cart').where({
               goodsId : orderGoods[i].goods_id,
               _openid:ctx.openid
@@ -154,12 +161,31 @@ exports.main = async (event, context) => {
             if(!r1.stats.updated || !r2.stats.removed){
               // 会作为 runTransaction reject 的结果出去
               // 回滚
-              await transaction.rollback()
+              await transaction.rollback( {
+                success : 0,
+                message :'提交失败'
+              })
+              break
             }
           }
-          // 修改购物车数据
+          // 如果使用了优惠券,修改优惠券的状态等信息
+          if(userCouponId != '' && data.couponMoney > 0){
+            const r3 = await transaction.collection('user_coupon').doc(userCouponId).update({
+              data:{
+                isUser:true,
+                orderId:res._id,
+                useTime:db.serverDate()
+              }
+            })
+            if(!r3.stats.updated){
+              await transaction.rollback( {
+                success : 0,
+                message :'提交失败'
+              })
+            }
+          }
           return  {
-            success : 0,
+            success : 1,
             message :'提交成功'
           }
          
@@ -178,6 +204,23 @@ exports.main = async (event, context) => {
        message :'提交失败'
      }
    }
+ })
+ app.router('list' , async(ctx)=>{
+   let status =parseInt(event.status)
+   if(isNaN(status)){
+     status = -1
+   }
+   const start = parseInt(event.start || 0)
+   let count = parseInt(event.count || 20)
+   count = count > 20 ? 20 : count
+   let where = {
+     userId:ctx.userId,
+   }
+   if(status > -1){
+     where.status = status
+   }
+   const list = await orderCollection.where(where).orderBy('createTime','desc').skip(start).limit(count).get().then(res =>res.data)
+   ctx.body = list
  })
  return app.serve()
 }

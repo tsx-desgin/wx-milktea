@@ -1,1 +1,18 @@
-/* miniprogram/pages/order/order.wxss */
+.status-tab{
+  width: 100%;
+  padding: 0 20rpx;
+  box-sizing: border-box;
+} 
+.tab-active{
+  color: #ffcc00 !important;
+  font-weight: bold !important;
+}
+.tab-inactive{
+  font-size: 28rpx !important;
+  color: #333 !important;
+  font-weight: bold;
+}
+.tab-active-line{
+  background: #ffcc00 !important;
+  width: 30% !important;
+}
