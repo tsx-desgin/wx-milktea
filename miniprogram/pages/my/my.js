@@ -5,11 +5,22 @@ Page({
    * 页面的初始数据
    */
   data: {
-
+    userInfo:{}
   },
   async getUser(){
    const user = await User.getDetail()
    console.log(user)
+   this.setData({
+     userInfo:user
+   })
+  },
+  chooseAvatar(){
+    // 调起选图片
+    wx.chooseImage({
+      success: (res) => {
+        console.log(res)
+      },
+    })
   },
   /**
    * 生命周期函数--监听页面加载

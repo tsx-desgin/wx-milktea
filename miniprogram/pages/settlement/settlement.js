@@ -102,7 +102,7 @@ Page({
     console.log(cart)
   
     const orderTotal = cart.reduce((item1,item2)=>{
-      return item2.buyNumber * item2.goodsPrice
+      return item1+item2.buyNumber * item2.goodsPrice
     },0)
     console.log(orderTotal)
     this.setData({

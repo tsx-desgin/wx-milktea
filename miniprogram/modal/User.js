@@ -6,7 +6,7 @@ class User {
         $url:'detail'
       }
     }).then(res => res.result)
-    console.log(user)
+    // console.log(user)
     if(!user.nickname){
      return new Promise((resolve,reject) =>{
       wx.getUserInfo({

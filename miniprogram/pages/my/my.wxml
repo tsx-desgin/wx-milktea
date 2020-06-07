@@ -1,2 +1,6 @@
-<open-data type="userAvatarUrl"></open-data>
-<open-data type="userNickName"></open-data>
+<view class="header-container" style="background-image: url('/images/my/my-bg.png');">
+   <view class="user-Info">
+      <view class="user-nickname">{{userInfo.nickName}}</view>
+      <image class="user-avatar" src="{{userInfo.avatarUrl}}" bindtap="chooseAvatar"></image>
+   </view>
+</view>
