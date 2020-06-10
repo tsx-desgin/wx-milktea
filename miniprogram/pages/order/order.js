@@ -78,6 +78,7 @@ Page({
     }
     let address = wx.getStorageSync(ADDRESS_STORE_NAME)
     let order = this.data.order.filter(item => item._id==orderId)
+    order=order[0]
     if(order.length==0){
       return
     }
@@ -98,6 +99,12 @@ Page({
         isQuick:true
       })
     })
+    const res = await cartList.setCartAll(data)
+    if(res){
+      wx.navigateTo({
+        url: "/pages/settlement/settlement?quick=1",
+      })
+    }
   },
   /**
    * 生命周期函数--监听页面加载

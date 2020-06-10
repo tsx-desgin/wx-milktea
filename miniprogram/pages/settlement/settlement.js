@@ -6,6 +6,7 @@ const cartList = new Cart()
 const AUTH_LOGIN_KEY = getConfig('app.auth_login_key')
 const ADDRESS_STORE_NAME = getConfig('storage.selectAddress')
 import {Order} from '../../modal/Order'
+let quickBuy = 0
 Page({
 
   /**
@@ -86,7 +87,7 @@ Page({
       }, 1500);
       return
     }
-    const cart = await cartList.getCart()
+    const cart = await cartList.getCart(0,quickBuy)
     if(cart.length===0){
         wx.showToast({
           title: '请选择商品',
@@ -318,6 +319,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    quickBuy = parseInt(options.quick || 0)
    this.checkAuth()
    this.getCoupon()
   },

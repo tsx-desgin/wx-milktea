@@ -237,5 +237,35 @@ exports.main = async (event, context) => {
    const list = await orderCollection.where(where).orderBy('createTime','desc').skip(start).limit(count).get().then(res =>res.data)
    ctx.body = list
  })
+ app.router('setCartAll',async(ctx)=>{
+   let data = event.data|| []
+  try {
+    const result = await db.runTransaction(async transaction => {
+      const res = []
+      for(let k in data){
+        const r= await transaction.collection('cart').add({
+          data:{
+            ...data[k],
+            _openid:ctx.openid,
+            createTime:db.serverDate()
+          }
+        })
+        console.log('r',r._id)
+        if(r._id){
+          res.push(r._id)
+        }
+      }
+      if(res.length!=data.length){
+        await transaction.rollback(0)
+      }else{
+        return res.length
+      }
+    })
+    return result>0
+  } catch (error) {
+    console.log('setCart',error)
+    return false
+  }
+ })
  return app.serve()
 }
