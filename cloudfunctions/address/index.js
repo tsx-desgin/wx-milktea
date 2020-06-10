@@ -44,16 +44,19 @@ exports.main = async (event, context) => {
   })
   // 获取默认地址
   app.router('default', async(ctx)=>{
-    const list = addressCollection.where({
+    const list = await addressCollection.where({
       openid:ctx.openid
     }).orderBy('createTime','desc').get().then(res =>res.data)
     if(list.length===0){
       ctx.body = {}
     }else{
+      // console.log(list)
       const row = list.filter( item =>item.isDefault)
       if(row.length===0){
+        // console.log('list',list[0])
         ctx.body=list[0]
       }else{
+        // console.log('row',row[0])
         ctx.body = row[0]
       }
     }

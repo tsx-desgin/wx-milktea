@@ -34,7 +34,7 @@ class Storage {
       return result;
     }
     if(this.hasExpire){
-      if(result.expire_time<Date.now){
+      if(result.expire_time<Date.now()){
         result='';
         this.deleteStorage()
       }else{

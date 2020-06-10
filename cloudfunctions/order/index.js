@@ -31,6 +31,21 @@ exports.main = async (event, context) => {
     ctx.userId = user.length > 0 ? user[0]._id:''
     await next()
   })
+  app.router('count',async(ctx) =>{
+    let status =parseInt(event.status)
+    if(isNaN(status)){
+      status = -1
+    }
+    let where = {
+      userId:ctx.userId,
+    }
+    if(status > -1){
+      where.status = status
+    }
+    const count = await orderCollection.where(where).count().then(res=>res.total)
+    console.log('count',count)
+    ctx.body = count
+  })
  app.router('add' , async(ctx)=>{
    const addressId = event.addressId || '';
    const goods = event.goods || [];

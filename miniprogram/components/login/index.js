@@ -41,7 +41,7 @@ Component({
       if(e.detail.userInfo){
         // 允许授权
         // 获取app.js中的方法
-        getApp().autoLogin(()=>{
+        getApp().httpLogin(()=>{
           this.setData({
             showLogin:false
           })

@@ -1,7 +1,12 @@
 .status-tab{
   width: 100%;
+  background: #fff;
   padding: 0 20rpx;
   box-sizing: border-box;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 9999;
 } 
 .tab-active{
   color: #ffcc00 !important;
@@ -15,4 +20,136 @@
 .tab-active-line{
   background: #ffcc00 !important;
   width: 30% !important;
+}
+.empty-container{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 80rpx;
+}
+.text-img{
+  width: 351rpx;
+  height: 291rpx;
+}
+.empty-img{
+  width: 271rpx;
+  height: 88rpx;
+}
+.order-list{
+  width: 100%;
+}
+.order-item{
+  width: 100%;
+  margin-bottom: 20rpx;
+  background: #fff;
+  height: 350rpx;
+  padding: 0 20rpx;
+  box-sizing: border-box;
+  overflow: hidden;
+  position: relative;
+}
+.icondizhi{
+  color: #ffcc00;
+  margin-right: 5rpx;
+}
+.pay-status{
+  color: #666;
+}
+.address-con{
+  width: 100%;
+  height: 90rpx;
+  font-size: 26rpx;
+  color: #333;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  /* border-bottom: 1px solid #999; */
+}
+.order-list{
+  margin-top: 80rpx;
+}
+.order-goods{
+  width: 100%;
+  height: 175rpx;
+  overflow: auto;
+}
+.goods-info{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  margin-bottom: 20rpx;
+}
+.goods-img{
+  width: 175rpx;
+  height: 175rpx;
+  border-radius: 10rpx;
+}
+.goods-desc{
+  width: 0;
+  flex: 1;
+  height: 100%;
+  display: flex;
+  margin-left: 20rpx;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  /* background: #f40; */
+}
+.goods-name{
+  overflow:hidden; 
+  text-overflow:ellipsis;
+  display:-webkit-box; 
+  -webkit-box-orient:vertical;
+  -webkit-line-clamp:2; 
+  font-size:26rpx;
+  color: #666;
+}
+.goods-count{
+  width: 95%;
+  display: flex;
+  justify-content: space-between;
+}
+.goods-price{
+  color: red;
+  font-weight: bold;
+}
+.order-code{
+  position: absolute;
+  z-index: 1000;
+  /* background: #ffcc00; */
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 80rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 24rpx;
+  color: #666;
+  padding: 0 20rpx;
+  box-sizing: border-box;
+  border-top: 1px solid #999;
+}
+.goods-again{
+  width: 120rpx;
+  height: 50rpx;
+  color: #ffcc00;
+  border: 1px solid #ffcc00;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.load-more{
+  text-align: center;
+  color: #999;
+  font-size: 26rpx;
+}
+.load-more{
+  text-align: center;
+  color: #999;
+  font-size: 26rpx;
 }

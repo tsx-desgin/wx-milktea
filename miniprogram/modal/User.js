@@ -14,7 +14,7 @@ class User {
           console.log(res)
           if(res.userInfo){
             // user = {...user,...res.userInfo}
-            user = Object.assign(user,res.userInfo)
+            user = Object.assign(res.userInfo,user)
             console.log(user)
             resolve(user)
           }
@@ -23,6 +23,16 @@ class User {
      })
     }
     return user
+  }
+  static async update(userId,data){
+    return await wx.cloud.callFunction({
+      name:'user',
+      data:{
+        $url:'update',
+        user:data,
+        userId:userId
+      }
+    }).then(res => res.result)
   }
 }
 

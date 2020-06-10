@@ -29,5 +29,48 @@ exports.main = async (event, context) => {
     const user = await UserCollection.doc(ctx.userId).get().then(res => res.data)
     ctx.body = user
   })
+  app.router('update', async(ctx) =>{
+    const user = event.user
+    const userId = event.userId
+    if(isEmpty(user) || !userId){
+      ctx.body = {
+        success : '0',
+        message:'参数错误'
+      }
+      return
+    }
+    try {
+      const userInfo = await UserCollection.doc(userId).get().then(res => res.data)
+      if(isEmpty(userInfo)){
+        throw new Error('用户不存在')
+      }
+      const res = await UserCollection.doc(ctx.userId).update({
+        data:user
+      })
+      console.log('res',res)
+      if(res.stats.updated>0){
+        if(user.avatarUrl && userInfo.avatarUrl){
+          // console.log(1111)
+          const act = await cloud.deleteFile({
+            fileList: [userInfo.avatarUrl],
+          })
+          // console.log('act',act)
+        }
+      }else{
+        throw new Error('没有修改数据')
+      }
+    } catch (error) {
+      console.log('update-err',error)
+      ctx.body = {
+        success : '0',
+        message:'修改失败'
+      }
+      return
+    }
+    ctx.body = {
+      success:'1',
+      message:'修改成功'
+    }
+  })
   return app.serve()
 }

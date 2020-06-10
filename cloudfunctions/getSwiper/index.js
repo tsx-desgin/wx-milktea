@@ -1,7 +1,7 @@
 // 云函数入口文件
 const cloud = require('wx-server-sdk')
 const axios = require('axios')
-axios.defaults.baseURL = 'http://api.2yue.cc/index.php/';
+axios.defaults.baseURL = 'http://api.4yue.top/index.php/';
 axios.defaults.timeout=10000;
 axios.defaults.headers.appkey='f68bSYqte0m6EibwhARrzTcYDPoV0FobCi06uDfM3eF4QGQQKSywmd71ytM';
 // 初始化 cloud

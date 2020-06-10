@@ -1,17 +1,24 @@
-import {getConfig} from '../../utils/function'
+import {getConfig,isEmpty } from '../../utils/function'
 import {Order} from '../../modal/Order'
 const orderTabBar = getConfig('order.orderTabBar') || []
-const ORDER_MAX_NUM = 10
+const ORDER_MAX_NUM = 5
+let orderCount = 0
+const ADDRESS_STORE_NAME = getConfig('storage.selectAddress')
+import {Address} from '../../modal/address'
+import {Cart} from '../../modal/Cart'
+const cartList = new Cart()
 Page({
 
   /**
-   * 页面的初始数据
+   * 页面的初始数据 
    */
   data: {
     orderTabBar,
     orderStatus:-1,
     order:[],
-    hasMore:true
+    hasMore:true,
+    hasOrder:true,
+    show:true
   },
   async getOrder(){
     if(!this.data.hasMore){
@@ -35,11 +42,20 @@ Page({
       return
     }
     const order = this.data.order.concat(list);
+    console.log(order)
+    let show;
+    if(order.length>0){
+      show = true
+    }else{
+      show = false
+    }
     this.setData({
-      order
+      order,
+      show,
+      hasMore:orderCount>ORDER_MAX_NUM
     })
   },
-  orderTab(e){
+  async orderTab(e){
     console.log(e)
     const orderStatus = parseInt(e.detail.activeKey)
     this.setData({
@@ -47,12 +63,51 @@ Page({
       order:[],
       hasMore:true
     })
-    this.getOrder()
+    orderCount = await Order.count(orderStatus)
+      this.getOrder()
+  },
+  toList(){
+    wx.switchTab({
+      url: '/pages/list/list',
+    })
+  },
+  async quickBuy(e){
+    const orderId = e.currentTarget.dataset.orderId
+    if(!orderId){
+      return
+    }
+    let address = wx.getStorageSync(ADDRESS_STORE_NAME)
+    let order = this.data.order.filter(item => item._id==orderId)
+    if(order.length==0){
+      return
+    }
+    if(isEmpty(address)){
+      // 选择地址
+     address = await Address.getDefaultAddressOrSelect()
+     wx.setStorageSync(ADDRESS_STORE_NAME, address)
+     console.log(address)
+    }
+    const data = []
+    order.goods.forEach(item =>{
+      data.push({
+        goodsId:item.goods_id,
+        goodsImg:item.goods_img,
+        goodsName:item.goods_name,
+        goodsPrice:item.goods_price,
+        buyNumber:item.buyNumber,
+        isQuick:true
+      })
+    })
   },
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
+  onLoad: async function (options) {
+    orderCount = await Order.count()
+    this.setData({
+      hasOrder:orderCount>0
+    })
+    // console.log(hasOrder)
    this.getOrder()
   },
 
@@ -102,6 +157,5 @@ Page({
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
-
   }
 })

@@ -33,7 +33,9 @@ Page({
       mask:true
     })
     const navList =await this.getNavigate()
+    console.log(1)
     const bannerList=await this.getbanner()
+    console.log(2)
     const swiperList =await this.getRecommend()
     wx.hideLoading()
     this.setData({

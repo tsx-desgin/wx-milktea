@@ -32,15 +32,19 @@ App({
         // console.log(res)
         if(res.authSetting['scope.userInfo']){
           // 已经授权,登录
-          this.autoLogin()
-          // const token = TokenStorage.getStorage()
-          // if(token==''){
-          //   wx.showToast({
-          //     title: 'token为空,请重新登录~~~',
-          //     icon:'none'
-          //   })
-          //   this.httpLogin()
-          // }
+          // this.autoLogin()
+          const token = TokenStorage.getStorage()
+          if(token==''){
+            wx.showToast({
+              title: 'token为空,请重新登录~~~',
+              icon:'none'
+            })
+            this.httpLogin()
+          }
+          if(token.expire_time===Date.now()){
+            console.log(111)
+            this.httpLogin()
+          }
         }else{
           wx.setStorageSync(AUTH_LOGIN_KEY, 0)
         }

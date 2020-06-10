@@ -5,3 +5,42 @@
     </block>
   </l-segment>  
 </view>
+<view class="empty-container" hidden="{{hasOrder}}">
+   <image src="../../images/text.png" class="text-img"></image>
+   <image src="../../images/empty.png" class="empty-img" bindtap="toList"></image>
+</view>
+
+<view class="order-list">
+  <block wx:for="{{order}}" wx:key="_id">
+  <view class="order-item">
+     <view class="address-con">
+        <text class="address"><text class="icon icondizhi"></text>{{item.address}}</text>
+        <text class="pay-status">{{item.status==0?'待支付':item.status==1?'已支付':'已发货'}}</text>
+     </view>
+     <view class="order-goods">
+        <block wx:for="{{item.goods}}" wx:for-item="goods" wx:key="goods_id">
+          <view class="goods-info">
+             <image src="{{goods.goods_img}}" class="goods-img"></image>
+             <view class="goods-desc">
+               <view class="goods-name">{{goods.goods_name}}</view>
+               <view class="goods-count">
+                 <text class="goods-price">¥{{goods.goods_price}}</text>
+                 <text class="goods-buyNumber">x{{goods.buyNumber}}</text>
+               </view>
+             </view>
+          </view>
+        </block>
+     </view>
+     <view class="order-code">
+      <text class="goods-time">{{tools.dateFormat(item.createTime)}}</text>
+      <text class="goods-again" bindtap="quickBuy" data-order-id="{{item._id}}">再来一单</text>
+    </view>
+  </view>
+  </block>
+</view>
+<view class="empty-data" hidden="{{show}}">没有查询到数据</view>
+<view class="load-more" hidden="{{!hasMore}}">点击查看更多</view>
+<!-- wxs 讲方法加载到tools -->
+<wxs src="../../utils/tool.wxs" module="tools">
+  
+</wxs>
