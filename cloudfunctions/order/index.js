@@ -11,6 +11,7 @@ const orderCollection = db.collection('order');
 const addressCollection = db.collection('address');
 const goodsCollection = db.collection('goods');
 const UserCollection = db.collection('user')
+const cartCollection = db.collection('cart')
 const couponCollection = db.collection('coupon');
 const userCouponCollection = db.collection('user_coupon');
 const TcbRouter = require('tcb-router');
@@ -261,11 +262,24 @@ exports.main = async (event, context) => {
         return res.length
       }
     })
-    return result>0
+    ctx.body = result>0
   } catch (error) {
     console.log('setCart',error)
-    return false
+    ctx.body = false
   }
+ })
+ app.router('removeQuickCart' , async(ctx)=>{
+  try {
+    await cartCollection.where({
+      isQuick:true,
+      _openid:ctx.openid
+    }).remove()  
+  } catch (error) {
+    console.log(error)
+    ctx.body = false
+    return
+  }
+  ctx.body = true
  })
  return app.serve()
 }

@@ -81,6 +81,14 @@ class Cart {
      }
    }).then(res=>res.result)
   }
+  async removeQuickGoods(){
+   return await wx.cloud.callFunction({
+     name:'order',
+     data:{
+       $url:'removeQuickCart',
+     }
+   }).then(res =>res.result)
+  }
 }
 
 export {

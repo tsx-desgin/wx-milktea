@@ -102,9 +102,13 @@ Page({
     }
     console.log(cart)
   
-    const orderTotal = cart.reduce((item1,item2)=>{
-      return item1+item2.buyNumber * item2.goodsPrice
-    },0)
+    // const orderTotal = cart.reduce((item1,item2)=>{
+    //   return item1+item2.buyNumber * item2.goodsPrice
+    // },0)
+    let orderTotal=0;
+    cart.forEach(item=>{
+      orderTotal+=item.buyNumber*item.goodsPrice
+    })
     console.log(orderTotal)
     this.setData({
       address,
@@ -341,15 +345,19 @@ Page({
   /**
    * 生命周期函数--监听页面隐藏
    */
-  onHide: function () {
-
+  onHide:async function () {
+    if(quickBuy==1){
+      cartList.removeQuickGoods()
+    }
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
-  onUnload: function () {
-
+  onUnload:async function () {
+    if(quickBuy==1){
+     await cartList.removeQuickGoods()
+    }
   },
 
   /**

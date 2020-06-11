@@ -7,7 +7,8 @@ const AUTH_LOGIN_KEY = getConfig('app.auth_login_key')
 App({
   // 生命周期函数,进入小程序时运行
   onLaunch: function () {
-    
+    // 检测版本更新
+    this.update()
     if (!wx.cloud) {
       console.error('请使用 2.2.3 或以上的基础库以使用云能力')
     } else {
@@ -32,19 +33,19 @@ App({
         // console.log(res)
         if(res.authSetting['scope.userInfo']){
           // 已经授权,登录
-          // this.autoLogin()
-          const token = TokenStorage.getStorage()
-          if(token==''){
-            wx.showToast({
-              title: 'token为空,请重新登录~~~',
-              icon:'none'
-            })
-            this.httpLogin()
-          }
-          if(token.expire_time===Date.now()){
-            console.log(111)
-            this.httpLogin()
-          }
+          this.autoLogin()
+          // const token = TokenStorage.getStorage()
+          // if(token==''){
+          //   wx.showToast({
+          //     title: 'token为空,请重新登录~~~',
+          //     icon:'none'
+          //   })
+          //   this.httpLogin()
+          // }
+          // if(token.expire_time===Date.now()){
+          //   console.log(111)
+          //   this.httpLogin()
+          // }
         }else{
           wx.setStorageSync(AUTH_LOGIN_KEY, 0)
         }
@@ -84,5 +85,35 @@ App({
           }
         },
       })
+  },
+  update(){
+    if(wx.canIUse('getUpdateManager')){
+     const updateMamager = wx.getUpdateManager()
+    //  判断是否有更新
+     updateMamager.onCheckForUpdate(res =>{
+       console.log(res.hasUpdate)
+       if(res.hasUpdate){
+         updateMamager.onUpdateReady(res=>{
+           wx.showModal({
+             title: '更新提示',
+             mask:true,
+             content:'版本已经更新,是否重启应用',
+             success:res=>{
+               if(res.confirm){
+                 updateMamager.applyUpdate()
+               }
+             }
+           })
+         })
+         updateMamager.onUpdateFailed(()=>{
+          wx.showModal({
+            title: '新版本提醒',
+            mask:true,
+            content:'新版本已上线,请重新搜索打开',
+          })
+         })
+       }
+     })
+    }
   }
 })

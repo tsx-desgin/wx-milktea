@@ -8,6 +8,7 @@ cloud.init({
 const db = cloud.database()
 const UserCollection = db.collection('user')
 const TcbRouter = require('tcb-router');
+const {dateFormat} = require('./function')
 const {isObject,isEmpty,uniq,random} = require('lodash');
 const _ =db.command
 
@@ -70,6 +71,60 @@ exports.main = async (event, context) => {
     ctx.body = {
       success:'1',
       message:'修改成功'
+    }
+  })
+  app.router('qrcode',async(ctx)=>{
+    const scene = event.scene||''
+    const page = event.page||''
+    try {
+      const result = await cloud.openapi.wxacode.getUnlimited({
+          scene,
+          page, 
+        })
+      if(result.errCode != 0){
+        ctx.body={
+          success:0,
+          message:result.errMsg
+        }
+        return
+      }
+      const date = new Date()
+      const res = await cloud.uploadFile({
+        cloudPath:'qrcode/'+dateFormat('YYYY-MM-dd',date)+'/'+date.getTime()+'.png',
+        fileContent:result.buffer
+      })
+      if(res.errCode !=null && res.errCode!=0){
+        ctx.body={
+          success:0,
+          message:res.errMsg
+        }
+        return
+      }
+      let fileList= await cloud.getTempFileURL({
+        fileList:[{
+          fileID:res.fileID,
+          maxAge:3600*24*30
+        }]
+      }).then(res=>res.fileList)
+      fileList = fileList[0]
+      if(fileList.status!=0){
+        ctx.body={
+          success:0,
+          message:fileList.errMsg
+        }
+        return
+      }
+      ctx.body={
+        success:1,
+        fileID:res.fileID,
+        imgUrl:fileList.tempFileURL
+      }
+    } catch (err) {
+      console.log('qrcode-err',err)
+      ctx.body={
+        success:0,
+        message:'生成失败'
+      }
     }
   })
   return app.serve()

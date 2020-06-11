@@ -34,6 +34,15 @@ class User {
       }
     }).then(res => res.result)
   }
+  static async getQrcode(data){
+    return await wx.cloud.callFunction({
+      name:'user',
+      data:{
+        $url:'qrcode',
+        ...data,
+      }
+    }).then(res=>res.result)
+  }
 }
 
 export {

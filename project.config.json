@@ -93,9 +93,17 @@
 					"scene": null
 				},
 				{
-					"id": -1,
+					"id": 6,
 					"name": "pages/my/my",
 					"pathName": "pages/my/my",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/coupon/coupon",
+					"pathName": "pages/coupon/coupon",
+					"query": "",
 					"scene": null
 				}
 			]
